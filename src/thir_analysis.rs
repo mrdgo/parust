@@ -10,7 +10,6 @@ extern crate rustc_middle;
 extern crate rustc_session;
 extern crate rustc_span;
 
-use std::{env, fs};
 use std::{path, process, str, sync::Arc};
 
 use rustc_errors::registry;
@@ -54,18 +53,13 @@ impl<'thir, 'tcx: 'thir> rustc_middle::thir::visit::Visitor<'thir, 'tcx>
     }
 }
 
-pub fn thir_analysis() {
-    let args: Vec<String> = env::args().collect();
-    let file_name = &String::from(&args[1]);
-
+pub fn thir_analysis(file_name: &String, contents: String) {
     let out = process::Command::new("rustc")
         .arg("--print=sysroot")
         .current_dir(".")
         .output()
         .unwrap();
     let sysroot = str::from_utf8(&out.stdout).unwrap().trim();
-
-    let contents = fs::read_to_string(file_name).expect("Should have been able to read the file");
 
     let config = rustc_interface::Config {
         opts: config::Options {

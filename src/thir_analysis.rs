@@ -214,11 +214,6 @@ pub fn thir_analysis(file_name: &String, input: String) {
             });
 
             queries.global_ctxt().unwrap().enter(|tcx| {
-                rustc_interface::Linker::codegen_and_build_linker(tcx, &*compiler.codegen_backend)
-                    .unwrap();
-            });
-
-            queries.global_ctxt().unwrap().enter(|tcx| {
                 let hir_krate = tcx.hir();
                 for id in hir_krate.items() {
                     let item = hir_krate.item(id);

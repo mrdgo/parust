@@ -1,4 +1,4 @@
-# Partitioning Rust programs into enclaves
+# Exploring analyses of Rust programs
 
 TODO: general idea & info
 

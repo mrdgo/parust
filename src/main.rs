@@ -1,7 +1,25 @@
 #![feature(rustc_private)]
 
-use std::{env, fs};
+use std::{env, fs, path::PathBuf};
 mod thir_analysis;
+use walkdir::WalkDir;
+
+fn get_rust_files(folder_path: &PathBuf) -> Vec<PathBuf> {
+    let mut rust_files = Vec::new();
+
+    for entry in WalkDir::new(folder_path)
+        .follow_links(true)
+        .into_iter()
+        .filter_map(|e| e.ok())
+    {
+        let path = entry.path();
+        if path.is_file() && path.extension().map_or(false, |e| e == "rs") {
+            rust_files.push(path.to_path_buf());
+        }
+    }
+
+    rust_files
+}
 
 fn main() {
     let args: Vec<String> = env::args().collect();

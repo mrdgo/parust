@@ -1,0 +1,7 @@
+def "nur run" [] {
+    cargo run -- src/main.rs
+}
+
+def "nur build" [] {
+    cargo build
+}
